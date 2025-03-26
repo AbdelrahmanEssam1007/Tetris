@@ -1,9 +1,9 @@
 #include "Game.h"
 
 #include <algorithm>
+#include <random>
 
 #include "Blocks.cpp"
-#include <random>
 
 Game::Game() {
   grid = Grid();
@@ -39,30 +39,31 @@ void Game::HandleInput() {
     Reset();
   }
   switch (keyPress) {
-  case KEY_LEFT:
-    MoveBlockLeft();
-    break;
+    case KEY_LEFT:
+      MoveBlockLeft();
+      break;
 
-  case KEY_RIGHT:
-    MoveBlockRight();
-    break;
+    case KEY_RIGHT:
+      MoveBlockRight();
+      break;
 
-  case KEY_DOWN:
-    MoveBlockDown();
-    break;
+    case KEY_DOWN:
+      MoveBlockDown();
+      break;
 
-  case KEY_UP:
-    RotateBlock();
-    break;
-  case KEY_SPACE:
-    DropBlock();
-    break;  
-  default: break;
+    case KEY_UP:
+      RotateBlock();
+      break;
+    case KEY_SPACE:
+      DropBlock();
+      break;
+    default:
+      break;
   }
 }
 
 void Game::MoveBlockLeft() {
-  if(gameOver) {
+  if (gameOver) {
     return;
   }
   currBlock.Move(0, -1);
@@ -72,7 +73,7 @@ void Game::MoveBlockLeft() {
 }
 
 void Game::MoveBlockRight() {
-  if(gameOver) {
+  if (gameOver) {
     return;
   }
   currBlock.Move(0, 1);
@@ -82,7 +83,7 @@ void Game::MoveBlockRight() {
 }
 
 void Game::MoveBlockDown() {
-  if(gameOver) {
+  if (gameOver) {
     return;
   }
   currBlock.Move(1, 0);
@@ -93,7 +94,7 @@ void Game::MoveBlockDown() {
 }
 
 void Game::DropBlock() {
-  if(gameOver) {
+  if (gameOver) {
     return;
   }
   while (!isBlockOutside() && !isBlockColliding()) {
@@ -112,9 +113,8 @@ void Game::Reset() {
 
 bool Game::isBlockOutside() const {
   const auto& cellPositions = currBlock.GetCellPositions();
-  return std::any_of(cellPositions.begin(), cellPositions.end(), [&](const Position& cellPosition) {
-    return grid.isCellOutside(cellPosition.r, cellPosition.c);
-  });
+  return std::any_of(cellPositions.begin(), cellPositions.end(),
+                     [&](const Position& cellPosition) { return grid.isCellOutside(cellPosition.r, cellPosition.c); });
 }
 
 void Game::RotateBlock() {
@@ -143,8 +143,6 @@ void Game::LockBlock() {
 
 bool Game::isBlockColliding() const {
   std::vector<Position> cellPositions = currBlock.GetCellPositions();
-  return std::any_of(cellPositions.begin(), cellPositions.end(), [&](const Position& cellPosition) {
-    return grid.cells[cellPosition.r][cellPosition.c] != 0;
-  });
+  return std::any_of(cellPositions.begin(), cellPositions.end(),
+                     [&](const Position& cellPosition) { return grid.cells[cellPosition.r][cellPosition.c] != 0; });
 }
-

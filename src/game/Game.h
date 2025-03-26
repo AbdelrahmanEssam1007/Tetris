@@ -4,7 +4,7 @@
 #include "Grid.h"
 
 class Game {
-public:
+ public:
   Game();
   Block GetRandomBlock();
   Grid grid;
@@ -18,7 +18,7 @@ public:
   void DropBlock();
   void Reset();
 
-private:
+ private:
   [[nodiscard]] bool isBlockOutside() const;
   void RotateBlock();
   void LockBlock();

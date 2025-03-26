@@ -1,6 +1,6 @@
 #include "position.h"
 
-Position::Position(int r, int c) {
+Position::Position(const int r, const int c) {
   this->r = r;
   this->c = c;
 }

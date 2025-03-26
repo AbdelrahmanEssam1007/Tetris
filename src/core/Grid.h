@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
+
 #include "raylib.h"
 
 class Grid {
-public:
+ public:
   int cells[20][10]{};
   Grid();
   void Init();
@@ -13,7 +14,7 @@ public:
   bool isCellEmpty(int r, int c) const;
   int ClearFullRows();
 
-private:
+ private:
   int rNum;
   int cNum;
   int cSize;

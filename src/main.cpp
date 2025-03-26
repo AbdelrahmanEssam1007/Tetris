@@ -1,6 +1,7 @@
 #include <iostream>
-#include "raylib.h"
+
 #include "Game.h"
+#include "raylib.h"
 
 double lastUpdate = 0;
 
@@ -18,7 +19,7 @@ int main() {
   SetTargetFPS(60);
 
   auto game = Game();
-  
+
   while (WindowShouldClose() == false) {
     game.HandleInput();
     if (EventTriggered(0.2)) {

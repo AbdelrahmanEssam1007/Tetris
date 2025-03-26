@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+
 #include "colors.h"
 #include "position.h"
 
@@ -41,7 +42,7 @@ void Grid::Draw() const {
 }
 
 bool Grid::isCellOutside(int r, int c) const {
-  if(r >= 0 && r < rNum && c >= 0 && c < cNum) {
+  if (r >= 0 && r < rNum && c >= 0 && c < cNum) {
     return false;
   }
   return true;

@@ -9,7 +9,7 @@ Block::Block() {
 }
 
 void Block::Draw() const {
-  std::vector<Position> cellPositions =GetCellPositions();
+  std::vector<Position> cellPositions = GetCellPositions();
   for (const Position cellPosition : cellPositions) {
     DrawRectangle(cellPosition.c * cSize + 1, cellPosition.r * cSize + 1, cSize - 1, cSize - 1, colors[id]);
   }
@@ -35,7 +35,7 @@ std::vector<Position> Block::GetCellPositions() const {
   std::vector<Position> cellPositions = cells.at(rotationState);
   std::vector<Position> translatedCellPositions;
   translatedCellPositions.reserve(cellPositions.size());
-for (const Position cellPosition : cellPositions) {
+  for (const Position cellPosition : cellPositions) {
     translatedCellPositions.push_back({cellPosition.r + rOffset, cellPosition.c + cOffset});
   }
   return translatedCellPositions;

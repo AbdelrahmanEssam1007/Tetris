@@ -1,11 +1,12 @@
 #pragma once
-#include <vector>
 #include <map>
-#include "position.h"
+#include <vector>
+
 #include "colors.h"
+#include "position.h"
 
 class Block {
-public:
+ public:
   Block();
   int id;
   std::vector<Position> GetCellPositions() const;
@@ -15,7 +16,7 @@ public:
   void Rotate();
   void UndoRotate();
 
-private:
+ private:
   int cSize;
   int rotationState;
   std::vector<Color> colors;

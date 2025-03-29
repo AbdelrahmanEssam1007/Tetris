@@ -15,13 +15,12 @@ bool EventTriggered(const double interval) {
 }
 
 int main() {
-  const Image icon = LoadImage("../src/assets/icon/tetris.bmp");
-  const Font arcadeClassic = LoadFontEx("../src/assets/font/ARCADECLASSIC.ttf", 64, nullptr, 0);
 
+  const Image icon = LoadImage("../src/assets/icon/tetris.bmp");
   InitWindow(500, 620, "Tetris");
+  const Font arcadeClassic = LoadFontEx("../src/assets/font/ARCADECLASSIC.TTF", 64, nullptr, 0);
   SetWindowIcon(icon);
   SetTargetFPS(60);
-
   auto game = Game();
 
   while (WindowShouldClose() == false) {

@@ -57,7 +57,7 @@ bool Grid::isCellEmpty(int r, int c) const {
 
 int Grid::ClearFullRows() {
   int numRowsCleared = 0;
-  for (int r = rNum - 1; r >= 0; r--) { // <-- Start from the bottom
+  for (int r = rNum - 1; r >= 0; r--) {  // <-- Start from the bottom
     if (IsRowFull(r)) {
       ClearRow(r);
       numRowsCleared++;

@@ -8,7 +8,7 @@ Block::Block() {
   cOffset = 0;
 }
 
-void Block::Draw(int xOffset,int yOffset) const {
+void Block::Draw(int xOffset, int yOffset) const {
   std::vector<Position> cellPositions = GetCellPositions();
   for (const Position cellPosition : cellPositions) {
     DrawRectangle(cellPosition.c * cSize + xOffset, cellPosition.r * cSize + yOffset, cSize - 1, cSize - 1, colors[id]);

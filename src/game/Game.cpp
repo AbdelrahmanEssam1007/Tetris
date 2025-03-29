@@ -108,7 +108,7 @@ void Game::MoveBlockRight() {
   if (isBlockOutside() || isBlockColliding()) {
     currBlock.Move(0, -1);
 
-    if(!atBottom) {
+    if (!atBottom) {
       atBottom = true;
       startLockTime = GetTime();
     }
@@ -165,7 +165,7 @@ void Game::RotateBlock() {
   if (currBlock.id == 4) {
     return;
   }
-  
+
   currBlock.Rotate();
   if (isBlockOutside() || isBlockColliding()) {
     currBlock.UndoRotate();
@@ -211,7 +211,7 @@ void Game::UpdateScore(const int linesCleared, const int moveDown) {
   score += moveDown;
 }
 void Game::ResetBlockTimer() {
-  if(atBottom) {
+  if (atBottom) {
     startLockTime = GetTime();
   }
 }

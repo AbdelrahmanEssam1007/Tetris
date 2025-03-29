@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <map>
 #include <vector>
 
@@ -12,6 +13,8 @@ class Block {
   [[nodiscard]] std::vector<Position> GetCellPositions() const;
   std::map<int, std::vector<Position>> cells;
   void Draw(int xOffset, int yOffset) const;
+  void DrawGhost(int xOffset, int yOffset, const std::function<bool(const std::vector<Position>&)>& isValid) const;
+
   void Move(int r, int c);
   void Rotate();
   void UndoRotate();

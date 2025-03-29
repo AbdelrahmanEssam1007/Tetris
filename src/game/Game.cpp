@@ -45,6 +45,11 @@ std::vector<Block> Game::GetBlocks() {
 
 void Game::Draw() const {
   grid.Draw();
+  currBlock.DrawGhost(11, 11, [&](const std::vector<Position>& cellPositions) {
+    return std::none_of(cellPositions.begin(), cellPositions.end(), [&](const Position& cellPosition) {
+      return grid.cells[cellPosition.r + 1][cellPosition.c] != 0;
+    });
+  });
   currBlock.Draw(11, 11);
   switch (nextBlock.id) {
     case 3:

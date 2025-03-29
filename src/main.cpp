@@ -40,7 +40,7 @@ int main() {
     DrawTextEx(arcadeClassic, "Score", {355, 15}, 38, 2, WHITE);
     DrawTextEx(arcadeClassic, scoreText, {320 + (170 - x) / 2, 65}, 38, 2, WHITE);
     DrawTextEx(arcadeClassic, "Next", {360, 175}, 38, 2, WHITE);
-    if (game.gameOver) DrawTextEx(arcadeClassic, "GAME OVER", {315, 450}, 38, 2, WHITE);
+    if (game.gameOver) DrawTextEx(arcadeClassic, "GAME OVER", {316, 450}, 30, 2, WHITE);
     game.Draw();
     EndDrawing();
   }

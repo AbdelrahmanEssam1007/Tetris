@@ -11,6 +11,22 @@ Game::Game() {
   currBlock = GetRandomBlock();
   nextBlock = GetRandomBlock();
   gameOver = false;
+  score = 0;
+  startLockTime = 0;
+  lockDelay = 0.5;
+  atBottom = false;
+  InitAudioDevice();
+  music = LoadMusicStream("../src/assets/sounds/music.mp3");
+  rotate = LoadSound("../src/assets/sounds/rotate.mp3");
+  clear = LoadSound("../src/assets/sounds/clear.mp3");
+  PlayMusicStream(music);
+}
+
+Game::~Game() {
+  CloseAudioDevice();
+  UnloadMusicStream(music);
+  UnloadSound(rotate);
+  UnloadSound(clear);
 }
 
 Block Game::GetRandomBlock() {
@@ -29,7 +45,17 @@ std::vector<Block> Game::GetBlocks() {
 
 void Game::Draw() const {
   grid.Draw();
-  currBlock.Draw();
+  currBlock.Draw(11, 11);
+  switch (nextBlock.id) {
+    case 3:
+      nextBlock.Draw(255, 290);
+      break;
+    case 4:
+      nextBlock.Draw(255, 280);
+      break;
+    default:
+      nextBlock.Draw(270, 270);
+  }
 }
 
 void Game::HandleInput() {
@@ -49,6 +75,7 @@ void Game::HandleInput() {
 
     case KEY_DOWN:
       MoveBlockDown();
+      UpdateScore(0, 1);
       break;
 
     case KEY_UP:
@@ -56,6 +83,7 @@ void Game::HandleInput() {
       break;
     case KEY_SPACE:
       DropBlock();
+      UpdateScore(0, 10);
       break;
     default:
       break;
@@ -79,6 +107,14 @@ void Game::MoveBlockRight() {
   currBlock.Move(0, 1);
   if (isBlockOutside() || isBlockColliding()) {
     currBlock.Move(0, -1);
+
+    if(!atBottom) {
+      atBottom = true;
+      startLockTime = GetTime();
+    }
+    else {
+      atBottom = false;
+    }
   }
 }
 
@@ -97,10 +133,13 @@ void Game::DropBlock() {
   if (gameOver) {
     return;
   }
-  while (!isBlockOutside() && !isBlockColliding()) {
+  while (true) {
     currBlock.Move(1, 0);
+    if (isBlockOutside() || isBlockColliding()) {
+      currBlock.Move(-1, 0);
+      break;
+    }
   }
-  currBlock.Move(-1, 0);
   LockBlock();
 }
 
@@ -109,6 +148,7 @@ void Game::Reset() {
   currBlock = GetRandomBlock();
   nextBlock = GetRandomBlock();
   gameOver = false;
+  score = 0;
 }
 
 bool Game::isBlockOutside() const {
@@ -121,9 +161,17 @@ void Game::RotateBlock() {
   if (gameOver) {
     return;
   }
+
+  if (currBlock.id == 4) {
+    return;
+  }
+  
   currBlock.Rotate();
-  if (isBlockOutside()) {
+  if (isBlockOutside() || isBlockColliding()) {
     currBlock.UndoRotate();
+  }
+  else {
+    PlaySound(rotate);
   }
 }
 
@@ -138,7 +186,34 @@ void Game::LockBlock() {
     return;
   }
   nextBlock = GetRandomBlock();
-  grid.ClearFullRows();
+  if (const int rowsCleared = grid.ClearFullRows(); rowsCleared > 0) {
+    UpdateScore(rowsCleared, 0);
+    PlaySound(clear);
+  }
+}
+void Game::UpdateScore(const int linesCleared, const int moveDown) {
+  switch (linesCleared) {
+    case 0:
+      break;
+    case 1:
+      score += 100;
+      break;
+    case 2:
+      score += 300;
+      break;
+    case 3:
+      score += 500;
+      break;
+    default:
+      score += 800;
+      break;
+  }
+  score += moveDown;
+}
+void Game::ResetBlockTimer() {
+  if(atBottom) {
+    startLockTime = GetTime();
+  }
 }
 
 bool Game::isBlockColliding() const {

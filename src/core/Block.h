@@ -9,9 +9,9 @@ class Block {
  public:
   Block();
   int id;
-  std::vector<Position> GetCellPositions() const;
+  [[nodiscard]]std::vector<Position> GetCellPositions() const;
   std::map<int, std::vector<Position>> cells;
-  void Draw() const;
+  void Draw(int xOffset,int yOffset) const;
   void Move(int r, int c);
   void Rotate();
   void UndoRotate();

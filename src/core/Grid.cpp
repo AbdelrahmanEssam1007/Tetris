@@ -36,7 +36,7 @@ void Grid::Draw() const {
   for (int r = 0; r < rNum; r++) {
     for (int c = 0; c < cNum; c++) {
       const int cell = cells[r][c];
-      DrawRectangle(c * cSize + 1, r * cSize + 1, cSize - 1, cSize - 1, colors[cell]);
+      DrawRectangle(c * cSize + 11, r * cSize + 11, cSize - 1, cSize - 1, colors[cell]);
     }
   }
 }
@@ -57,13 +57,10 @@ bool Grid::isCellEmpty(int r, int c) const {
 
 int Grid::ClearFullRows() {
   int numRowsCleared = 0;
-  for (int r = 0; r < rNum; r++) {
+  for (int r = rNum - 1; r >= 0; r--) { // <-- Start from the bottom
     if (IsRowFull(r)) {
       ClearRow(r);
       numRowsCleared++;
-    }
-    else if (numRowsCleared > 0) {
-      ShiftRowsDown(r, numRowsCleared);
     }
   }
   return numRowsCleared;
@@ -85,7 +82,9 @@ void Grid::ClearRow(int r) {
 
 void Grid::ShiftRowsDown(const int r, const int numRows) {
   for (int i = r; i >= 0; i--) {
-    std::copy_n(cells[i], cNum, cells[i + numRows]);
+    if (i + numRows < rNum) {
+      std::copy_n(cells[i], cNum, cells[i + numRows]);
+    }
     std::fill_n(cells[i], cNum, 0);
   }
 }

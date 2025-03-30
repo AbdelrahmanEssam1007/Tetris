@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <random>
+#include <thread>
 
 #include "Blocks.cpp"
 
@@ -47,7 +48,9 @@ void Game::Draw() const {
   grid.Draw();
   currBlock.DrawGhost(11, 11, [&](const std::vector<Position>& cellPositions) {
     return std::none_of(cellPositions.begin(), cellPositions.end(), [&](const Position& cellPosition) {
-      return grid.cells[cellPosition.r + 1][cellPosition.c] != 0;
+      return (cellPosition.r < 0 || cellPosition.r >= grid.rNum ||  // Row out of bounds
+              cellPosition.c < 0 || cellPosition.c >= grid.cNum ||  // Column out of bounds
+              grid.cells[cellPosition.r][cellPosition.c] != 0);  // Cell occupied
     });
   });
   currBlock.Draw(11, 11);
@@ -64,35 +67,44 @@ void Game::Draw() const {
 }
 
 void Game::HandleInput() {
-  const int keyPress = GetKeyPressed();
-  if (gameOver && keyPress != 0) {
-    gameOver = false;
-    Reset();
+  if (gameOver) {
+    if (GetKeyPressed() != 0) {
+      Reset();
+    }
+    return;
   }
-  switch (keyPress) {
-    case KEY_LEFT:
+
+
+  static auto lastMoveTime = std::chrono::steady_clock::now();
+  static std::unordered_map<int, bool> keyWasDown;
+  constexpr int moveDelay = 100;  // Delay for movement keys
+
+  const auto now = std::chrono::steady_clock::now();
+  bool canMove = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMoveTime).count() >= moveDelay;
+
+  // Movement keys (delayed)
+  if (canMove) {
+    if (IsKeyDown(KEY_LEFT))
       MoveBlockLeft();
-      break;
-
-    case KEY_RIGHT:
+    else if (IsKeyDown(KEY_RIGHT))
       MoveBlockRight();
-      break;
-
-    case KEY_DOWN:
+    else if (IsKeyDown(KEY_DOWN)) {
       MoveBlockDown();
       UpdateScore(0, 1);
-      break;
-
-    case KEY_UP:
-      RotateBlock();
-      break;
-    case KEY_SPACE:
-      DropBlock();
-      UpdateScore(0, 10);
-      break;
-    default:
-      break;
+    }
+    lastMoveTime = std::chrono::steady_clock::now();
   }
+
+  // Rotation and drop keys (trigger once per press)
+  if (IsKeyDown(KEY_UP) && !keyWasDown[KEY_UP]) RotateBlock();
+  if (IsKeyDown(KEY_SPACE) && !keyWasDown[KEY_SPACE]) {
+    DropBlock();
+    UpdateScore(0, 10);
+  }
+
+  // Update key states
+  keyWasDown[KEY_UP] = IsKeyDown(KEY_UP);
+  keyWasDown[KEY_SPACE] = IsKeyDown(KEY_SPACE);
 }
 
 void Game::MoveBlockLeft() {
@@ -154,6 +166,8 @@ void Game::Reset() {
   nextBlock = GetRandomBlock();
   gameOver = false;
   score = 0;
+  SeekMusicStream(music, 0.0);  // Reset music to the beginning
+  PlayMusicStream(music);  // Start playing again
 }
 
 bool Game::isBlockOutside() const {

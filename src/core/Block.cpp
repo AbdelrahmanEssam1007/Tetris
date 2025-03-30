@@ -17,7 +17,8 @@ void Block::Draw(int xOffset, int yOffset) const {
   }
 }
 
-void Block::DrawGhost(int xOffset, int yOffset, const std::function<bool(const std::vector<Position>&)>& isValid) const {
+void Block::DrawGhost(int xOffset, int yOffset,
+                      const std::function<bool(const std::vector<Position>&)>& isValid) const {
   int dropOffset = 0;
   while (true) {
     std::vector<Position> testPositions = GetCellPositions();
@@ -25,15 +26,19 @@ void Block::DrawGhost(int xOffset, int yOffset, const std::function<bool(const s
       pos.r += dropOffset;
     }
     if (!isValid(testPositions)) {
+      dropOffset--;  // Move back to the last valid position
       break;
     }
     dropOffset++;
   }
+
   std::vector<Position> ghostPositions = GetCellPositions();
   for (auto& pos : ghostPositions) {
     pos.r += dropOffset;
-    DrawRectangle(pos.c * cSize + xOffset, pos.r * cSize + yOffset, cSize - 1, cSize - 1, Fade(WHITE, 0.5f)); // Semi-transparent
-    DrawRectangle(pos.c * cSize + xOffset+1, pos.r * cSize + yOffset+1, cSize - 3, cSize - 3, darkGrey); // Semi-transparent
+    DrawRectangle(pos.c * cSize + xOffset, pos.r * cSize + yOffset, cSize - 1, cSize - 1,
+                  Fade(WHITE, 0.5f));  // Semi-transparent
+    DrawRectangle(pos.c * cSize + xOffset + 1, pos.r * cSize + yOffset + 1, cSize - 3, cSize - 3,
+                  darkGrey);  // Semi-transparent
   }
 }
 
@@ -58,7 +63,7 @@ std::vector<Position> Block::GetCellPositions() const {
   std::vector<Position> translatedCellPositions;
   translatedCellPositions.reserve(cellPositions.size());
   for (const Position cellPosition : cellPositions) {
-    translatedCellPositions.push_back({cellPosition.r + rOffset, cellPosition.c + cOffset});
+    translatedCellPositions.emplace_back(cellPosition.r + rOffset, cellPosition.c + cOffset);
   }
   return translatedCellPositions;
 }

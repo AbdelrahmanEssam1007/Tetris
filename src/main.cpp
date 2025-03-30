@@ -15,7 +15,6 @@ bool EventTriggered(const double interval) {
 }
 
 int main() {
-
   const Image icon = LoadImage("../src/assets/icon/tetris.bmp");
   InitWindow(500, 620, "Tetris");
   const Font arcadeClassic = LoadFontEx("../src/assets/font/ARCADECLASSIC.TTF", 64, nullptr, 0);
@@ -39,8 +38,16 @@ int main() {
     DrawTextEx(arcadeClassic, "Score", {355, 15}, 38, 2, WHITE);
     DrawTextEx(arcadeClassic, scoreText, {320 + (170 - x) / 2, 65}, 38, 2, WHITE);
     DrawTextEx(arcadeClassic, "Next", {360, 175}, 38, 2, WHITE);
-    if (game.gameOver) DrawTextEx(arcadeClassic, "GAME OVER", {316, 450}, 30, 2, WHITE);
     game.Draw();
+    if (game.gameOver) {
+      StopMusicStream(game.music);
+      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(darkGrey, 0.8f));
+      DrawTextEx(arcadeClassic, "GAME OVER",
+                 {static_cast<float>(GetScreenWidth() / 8), static_cast<float>(GetScreenHeight() / 3)}, 80, 2, WHITE);
+      DrawTextEx(arcadeClassic, "Press any key to restart",
+                 {static_cast<float>(GetScreenWidth() / 8) + 10, static_cast<float>(GetScreenHeight() / 2) - 20}, 28, 2,
+                 menuGrey);
+    }
     EndDrawing();
   }
 

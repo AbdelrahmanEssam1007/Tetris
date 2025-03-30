@@ -10,8 +10,8 @@ Grid::Grid() {
   rNum = 20;
   cNum = 10;
   cSize = 30;
-  Init();
   colors = GetCellColors();
+  Init();
 }
 
 void Grid::Init() {
@@ -49,10 +49,8 @@ bool Grid::isCellOutside(int r, int c) const {
 }
 
 bool Grid::isCellEmpty(int r, int c) const {
-  if (cells[r][c] == 0) {
-    return true;
-  }
-  return false;
+  if (isCellOutside(r, c)) return false;
+  return cells[r][c] == 0;
 }
 
 int Grid::ClearFullRows() {
@@ -77,14 +75,14 @@ void Grid::ClearRow(int r) {
   for (int i = r; i > 0; i--) {
     std::copy_n(cells[i - 1], cNum, cells[i]);
   }
-  std::fill_n(cells[0], cNum, 0);
+  std::fill_n(cells[0], cNum, 0);  // Ensures row 0 is reset properly
 }
 
 void Grid::ShiftRowsDown(const int r, const int numRows) {
-  for (int i = r; i >= 0; i--) {
-    if (i + numRows < rNum) {
-      std::copy_n(cells[i], cNum, cells[i + numRows]);
-    }
-    std::fill_n(cells[i], cNum, 0);
+  for (int i = r; i >= numRows; i--) {  // Start at r, stop at numRows
+    std::copy_n(cells[i - numRows], cNum, cells[i]);  // Shift correctly
+  }
+  for (int i = 0; i < numRows; i++) {
+    std::fill_n(cells[i], cNum, 0);  // Only clear the necessary rows
   }
 }

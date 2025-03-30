@@ -52,8 +52,8 @@ void Game::Draw() const {
     // at first god and I understood this code, but now only god knows
     // do not touch, do not try to fix, do not try to understand. LEAVE IT ALONE!!!!
     return std::none_of(cellPositions.begin(), cellPositions.end(), [&](const Position& cellPosition) {
-      return (cellPosition.r < 0 || cellPosition.r >= grid.rNum ||  // Row out of bounds
-              cellPosition.c < 0 || cellPosition.c >= grid.cNum ||  // Column out of bounds
+      return (cellPosition.r < 0 || cellPosition.r >= grid.getRNum() ||  // Row out of bounds
+              cellPosition.c < 0 || cellPosition.c >= grid.getCNum() ||  // Column out of bounds
               grid.cells[cellPosition.r][cellPosition.c] != 0);  // Cell occupied
     });
   });

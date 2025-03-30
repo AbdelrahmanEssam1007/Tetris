@@ -55,20 +55,27 @@ bool Grid::isCellEmpty(int r, int c) const {
 
 int Grid::ClearFullRows() {
   int numRowsCleared = 0;
-  
+
   for (int r = rNum - 1; r >= 0; r--) {
     if (IsRowFull(r)) {
       numRowsCleared++;
-    } else if (numRowsCleared > 0) {
+    }
+    else if (numRowsCleared > 0) {
       std::copy_n(cells[r], cNum, cells[r + numRowsCleared]);
     }
   }
 
-  for (int r = 0; r < numRowsClearzed; r++) {
+  for (int r = 0; r < numRowsCleared; r++) {
     std::fill_n(cells[r], cNum, 0);
   }
 
   return numRowsCleared;
+}
+int Grid::getRNum() const {
+  return rNum;
+}
+int Grid::getCNum() const {
+  return cNum;
 }
 
 bool Grid::IsRowFull(int r) const {

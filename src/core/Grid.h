@@ -13,10 +13,13 @@ class Grid {
   bool isCellOutside(int r, int c) const;
   bool isCellEmpty(int r, int c) const;
   int ClearFullRows();
+  int getRNum() const;
+  int getCNum() const;
+
+  
+ private:
   int rNum;
   int cNum;
-
- private:
   int cSize;
   [[nodiscard]] bool IsRowFull(int r) const;
   std::vector<Color> colors;

@@ -6,6 +6,8 @@
 
 #include "Blocks.cpp"
 
+std::mt19937 rng(std::random_device{}());
+
 Game::Game() {
   gameSpeed = 0.5;
   grid = Grid();
@@ -22,7 +24,6 @@ Game::Game() {
   rotate = LoadSound("../src/assets/sounds/rotate.mp3");
   clear = LoadSound("../src/assets/sounds/clear.mp3");
   PlayMusicStream(music);
-  
 }
 
 Game::~Game() {
@@ -36,7 +37,8 @@ Block Game::GetRandomBlock() {
   if (blocks.empty()) {
     blocks = GetBlocks();
   }
-  const int randomIndex = rand() % blocks.size();
+  std::uniform_int_distribution<int> dist(0, static_cast<int>((blocks.size())) - 1);
+  const int randomIndex = dist(rng);
   Block block = blocks[randomIndex];
   blocks.erase(blocks.begin() + randomIndex);
   return block;
@@ -153,23 +155,23 @@ void Game::MoveBlockDown() {
 void Game::UpdateGameSpeed() {
   if (score < 1000) {
     gameSpeed = 0.5;
-    SetMusicPitch(music,1.0);
+    SetMusicPitch(music, 1.0);
   }
   else if (score < 2000) {
     gameSpeed = 0.4;
-    SetMusicPitch(music,1.02);
+    SetMusicPitch(music, 1.02);
   }
   else if (score < 3000) {
     gameSpeed = 0.3;
-    SetMusicPitch(music,1.05);
+    SetMusicPitch(music, 1.05);
   }
   else if (score < 4000) {
     gameSpeed = 0.2;
-    SetMusicPitch(music,1.07);
+    SetMusicPitch(music, 1.07);
   }
   else {
     gameSpeed = 0.1;
-    SetMusicPitch(music,1.1);
+    SetMusicPitch(music, 1.1);
   }
 }
 
@@ -195,7 +197,7 @@ void Game::Reset() {
   score = 0;
   SeekMusicStream(music, 0.0);  // Reset music to the beginning
   PlayMusicStream(music);  // Start playing again
-  SetMusicPitch(music,1.0); // Reset pitch and speed
+  SetMusicPitch(music, 1.0);  // Reset pitch and speed
 }
 
 bool Game::isBlockOutside() const {

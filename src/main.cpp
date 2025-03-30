@@ -29,7 +29,6 @@ int main() {
     if (EventTriggered(game.gameSpeed)) {
       game.MoveBlockDown();
     }
-    std::cout << game.gameSpeed << std::endl;
     BeginDrawing();
     ClearBackground(darkBlue);
     DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, lightBlue);
@@ -45,9 +44,9 @@ int main() {
       StopMusicStream(game.music);
       DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(darkGrey, 0.8f));
       DrawTextEx(arcadeClassic, "GAME OVER",
-                 {static_cast<float>(GetScreenWidth() / 8), static_cast<float>(GetScreenHeight() / 3)}, 80, 2, WHITE);
+                 {static_cast<float>(GetScreenWidth() / 8.0), static_cast<float>(GetScreenHeight() / 3.0)}, 80, 2, WHITE);
       DrawTextEx(arcadeClassic, "Press any key to restart",
-                 {static_cast<float>(GetScreenWidth() / 8) + 10, static_cast<float>(GetScreenHeight() / 2) - 20}, 28, 2,
+                 {static_cast<float>(GetScreenWidth() / 8.0) + 10, static_cast<float>(GetScreenHeight() / 2.0) - 20}, 28, 2,
                  menuGrey);
     }
     EndDrawing();

@@ -24,10 +24,12 @@ int main() {
 
   while (WindowShouldClose() == false) {
     UpdateMusicStream(game.music);
+    game.UpdateGameSpeed();
     game.HandleInput();
-    if (EventTriggered(0.2)) {
+    if (EventTriggered(game.gameSpeed)) {
       game.MoveBlockDown();
     }
+    std::cout << game.gameSpeed << std::endl;
     BeginDrawing();
     ClearBackground(darkBlue);
     DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, lightBlue);

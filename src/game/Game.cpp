@@ -7,6 +7,7 @@
 #include "Blocks.cpp"
 
 Game::Game() {
+  gameSpeed = 0.5;
   grid = Grid();
   blocks = GetBlocks();
   currBlock = GetRandomBlock();
@@ -21,6 +22,7 @@ Game::Game() {
   rotate = LoadSound("../src/assets/sounds/rotate.mp3");
   clear = LoadSound("../src/assets/sounds/clear.mp3");
   PlayMusicStream(music);
+  
 }
 
 Game::~Game() {
@@ -148,6 +150,29 @@ void Game::MoveBlockDown() {
   }
 }
 
+void Game::UpdateGameSpeed() {
+  if (score < 1000) {
+    gameSpeed = 0.5;
+    SetMusicPitch(music,1.0);
+  }
+  else if (score < 2000) {
+    gameSpeed = 0.4;
+    SetMusicPitch(music,1.02);
+  }
+  else if (score < 3000) {
+    gameSpeed = 0.3;
+    SetMusicPitch(music,1.05);
+  }
+  else if (score < 4000) {
+    gameSpeed = 0.2;
+    SetMusicPitch(music,1.07);
+  }
+  else {
+    gameSpeed = 0.1;
+    SetMusicPitch(music,1.1);
+  }
+}
+
 void Game::DropBlock() {
   if (gameOver) {
     return;
@@ -170,6 +195,7 @@ void Game::Reset() {
   score = 0;
   SeekMusicStream(music, 0.0);  // Reset music to the beginning
   PlayMusicStream(music);  // Start playing again
+  SetMusicPitch(music,1.0); // Reset pitch and speed
 }
 
 bool Game::isBlockOutside() const {

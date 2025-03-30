@@ -12,9 +12,11 @@ class Game {
   [[nodiscard]] static std::vector<Block> GetBlocks();
   bool gameOver;
   int score;
+  float gameSpeed;
   void Draw() const;
   void HandleInput();
   void MoveBlockDown();
+  void UpdateGameSpeed();
   Music music{};
 
  private:

@@ -16,7 +16,6 @@ namespace COLOUR {
   inline constexpr Color lightBlue = {59, 85, 162, 255};
   inline constexpr Color menuGrey = {200, 200, 200, 150};
 
-  inline std::array<Color, 8> GetCellColors() {
-    return {darkGrey, green, red, orange, yellow, purple, cyan, blue};
-  }
+  inline constexpr std::array<Color, 8> CellColors = {darkGrey, green, red, orange, yellow, purple, cyan, blue};
+  
 }  // namespace COLOUR

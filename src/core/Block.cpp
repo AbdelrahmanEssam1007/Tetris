@@ -3,7 +3,7 @@
 #include <functional>
 
 Block::Block() : id(0), cSize(30), rotationState(0), rOffset(0), cOffset(0) {
-  colors = COLOUR::GetCellColors();
+  colors = COLOUR::CellColors;
 }
 
 void Block::Draw(const int xOffset, const int yOffset) const {

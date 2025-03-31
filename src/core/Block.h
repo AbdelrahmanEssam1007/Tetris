@@ -24,5 +24,5 @@ class Block {
   int rotationState;
   int rOffset;
   int cOffset;
-  std::array<Color, 8> colors;
+  std::array<Color, 8> colors{};
 };

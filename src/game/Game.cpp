@@ -74,7 +74,7 @@ void Game::Draw() const {
 
 void Game::HandleInput() {
   if (gameOver) {
-    if (GetKeyPressed() != 0) {
+    if (GetKeyPressed() == KEY_ENTER) {
       Reset();
     }
     return;
@@ -85,11 +85,9 @@ void Game::HandleInput() {
   static std::unordered_map<int, bool> keyWasDown;
   constexpr int moveDelay = 100;  // Delay for movement keys
 
-  const auto now = std::chrono::steady_clock::now();
-  bool canMove = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMoveTime).count() >= moveDelay;
-
   // Movement keys (delayed)
-  if (canMove) {
+  if (const auto now = std::chrono::steady_clock::now();
+      std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMoveTime).count() >= moveDelay) {
     if (IsKeyDown(KEY_LEFT))
       MoveBlockLeft();
     else if (IsKeyDown(KEY_RIGHT))
@@ -114,9 +112,6 @@ void Game::HandleInput() {
 }
 
 void Game::MoveBlockLeft() {
-  if (gameOver) {
-    return;
-  }
   currBlock.Move(0, -1);
   if (isBlockOutside() || isBlockColliding()) {
     currBlock.Move(0, 1);
@@ -124,9 +119,6 @@ void Game::MoveBlockLeft() {
 }
 
 void Game::MoveBlockRight() {
-  if (gameOver) {
-    return;
-  }
   currBlock.Move(0, 1);
   if (isBlockOutside() || isBlockColliding()) {
     currBlock.Move(0, -1);

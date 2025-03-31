@@ -52,7 +52,7 @@ void Block::UndoRotate() {
 
 
 std::vector<Position> Block::GetCellPositions() const {
-  std::vector<Position> cellPositions = cells.at(rotationState);
+  const std::vector<Position>& cellPositions = cells.at(rotationState);
   std::vector<Position> translatedCellPositions;
   translatedCellPositions.reserve(cellPositions.size());
   for (const Position cellPosition : cellPositions) {

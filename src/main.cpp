@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "Game.h"
-#include "raylib.h"
 #include "colors.h"
+#include "raylib.h"
 
 double lastUpdate = 0;
 
@@ -44,10 +44,11 @@ int main() {
       StopMusicStream(game.music);
       DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(COLOUR::darkGrey, 0.8f));
       DrawTextEx(arcadeClassic, "GAME OVER",
-                 {static_cast<float>(GetScreenWidth() / 8.0), static_cast<float>(GetScreenHeight() / 3.0)}, 80, 2, WHITE);
-      DrawTextEx(arcadeClassic, "Press any key to restart",
-                 {static_cast<float>(GetScreenWidth() / 8.0) + 10, static_cast<float>(GetScreenHeight() / 2.0) - 20}, 28, 2,
-                 COLOUR::menuGrey);
+                 {static_cast<float>(GetScreenWidth() / 8.0), static_cast<float>(GetScreenHeight() / 3.0)}, 80, 2,
+                 WHITE);
+      DrawTextEx(arcadeClassic, "Press the ENTER key to restart",
+                 {static_cast<float>(GetScreenWidth() / 8.0) + 5, static_cast<float>(GetScreenHeight() / 2.0) - 20}, 22,
+                 2, COLOUR::menuGrey);
     }
     EndDrawing();
   }

@@ -6,7 +6,7 @@
 
 class Grid {
  public:
-  int cells[20][10];
+  int cells[20][10]{};
   Grid();
   void Init();
   void Print() const;
@@ -23,7 +23,7 @@ class Grid {
   int cNum;
   int cSize;
   [[nodiscard]] bool IsRowFull(int r) const;
-  std::array<Color,8> colors;
+  std::array<Color,8> colors{};
   void ClearRow(int r);
   void ShiftRowsDown(int r, int numRows);
 };

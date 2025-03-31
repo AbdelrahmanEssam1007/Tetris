@@ -4,12 +4,8 @@
 #include <iostream>
 
 #include "colors.h"
-#include "position.h"
 
-Grid::Grid() {
-  rNum = 20;
-  cNum = 10;
-  cSize = 30;
+Grid::Grid(): rNum(20), cNum(10), cSize(30) {
   colors = COLOUR::CellColors;
   Init();
 }
@@ -41,14 +37,14 @@ void Grid::Draw() const {
   }
 }
 
-bool Grid::isCellOutside(int r, int c) const {
+bool Grid::isCellOutside(const int r, const int c) const {
   if (r >= 0 && r < rNum && c >= 0 && c < cNum) {
     return false;
   }
   return true;
 }
 
-bool Grid::isCellEmpty(int r, int c) const {
+bool Grid::isCellEmpty(const int r, const int c) const {
   if (isCellOutside(r, c)) return false;
   return cells[r][c] == 0;
 }
@@ -78,14 +74,14 @@ int Grid::getCNum() const {
   return cNum;
 }
 
-bool Grid::IsRowFull(int r) const {
+bool Grid::IsRowFull(const int r) const {
   if (std::all_of(cells[r], cells[r] + cNum, [](const int cell) { return cell != 0; })) {
     return true;
   }
   return false;
 }
 
-void Grid::ClearRow(int r) {
+void Grid::ClearRow(const int r) {
   for (int i = r; i > 0; i--) {
     std::copy_n(cells[i - 1], cNum, cells[i]);
   }

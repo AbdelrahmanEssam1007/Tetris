@@ -2,22 +2,18 @@
 
 #include <functional>
 
-Block::Block() {
-  cSize = 30;
-  rotationState = 0;
-  colors = GetCellColors();
-  rOffset = 0;
-  cOffset = 0;
+Block::Block() : id(0), cSize(30), rotationState(0), rOffset(0), cOffset(0) {
+  colors = COLOUR::GetCellColors();
 }
 
-void Block::Draw(int xOffset, int yOffset) const {
+void Block::Draw(const int xOffset, const int yOffset) const {
   std::vector<Position> cellPositions = GetCellPositions();
   for (const Position cellPosition : cellPositions) {
     DrawRectangle(cellPosition.c * cSize + xOffset, cellPosition.r * cSize + yOffset, cSize - 1, cSize - 1, colors[id]);
   }
 }
 
-void Block::DrawGhost(int xOffset, int yOffset,
+void Block::DrawGhost(const int xOffset, const int yOffset,
                       const std::function<bool(const std::vector<Position>&)>& isValid) const {
   int dropOffset = 0;
   while (true) {
@@ -38,25 +34,22 @@ void Block::DrawGhost(int xOffset, int yOffset,
     DrawRectangle(pos.c * cSize + xOffset, pos.r * cSize + yOffset, cSize - 1, cSize - 1,
                   Fade(WHITE, 0.5f));  // Semi-transparent
     DrawRectangle(pos.c * cSize + xOffset + 1, pos.r * cSize + yOffset + 1, cSize - 3, cSize - 3,
-                  darkGrey);  // Semi-transparent
+                  COLOUR::darkGrey);  // Semi-transparent
   }
 }
 
-void Block::Move(int r, int c) {
+void Block::Move(const int r, const int c) {
   rOffset += r;
   cOffset += c;
 }
-
 void Block::Rotate() {
-  rotationState = (rotationState + 1) % 4;
+  rotationState = (rotationState + 1) % static_cast<int>(cells.size());
 }
 
 void Block::UndoRotate() {
-  rotationState = (rotationState - 1) % 4;
-  if (rotationState < 0) {
-    rotationState = 3;
-  }
+  rotationState = (rotationState + static_cast<int>(cells.size()) - 1) % static_cast<int>(cells.size());
 }
+
 
 std::vector<Position> Block::GetCellPositions() const {
   std::vector<Position> cellPositions = cells.at(rotationState);

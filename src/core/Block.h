@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <map>
-#include <vector>
+#include <array>
 
 #include "colors.h"
 #include "position.h"
@@ -22,7 +22,7 @@ class Block {
  private:
   int cSize;
   int rotationState;
-  std::vector<Color> colors;
   int rOffset;
   int cOffset;
+  std::array<Color, 8> colors;
 };

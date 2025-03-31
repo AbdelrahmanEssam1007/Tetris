@@ -1,18 +1,22 @@
 #pragma once
-#include <vector>
+#include <array>
 
 #include "raylib.h"
 
-extern const Color darkGrey;
-extern const Color green;
-extern const Color red;
-extern const Color orange;
-extern const Color yellow;
-extern const Color purple;
-extern const Color cyan;
-extern const Color blue;
-extern const Color darkBlue;
-extern const Color lightBlue;
-extern const Color menuGrey;
+namespace COLOUR {
+  inline constexpr Color darkGrey = {26, 31, 40, 255};
+  inline constexpr Color green = {47, 230, 23, 255};
+  inline constexpr Color red = {232, 18, 18, 255};
+  inline constexpr Color orange = {226, 116, 17, 255};
+  inline constexpr Color yellow = {237, 234, 4, 255};
+  inline constexpr Color purple = {166, 0, 247, 255};
+  inline constexpr Color cyan = {21, 204, 209, 255};
+  inline constexpr Color blue = {13, 64, 216, 255};
+  inline constexpr Color darkBlue = {44, 44, 127, 255};
+  inline constexpr Color lightBlue = {59, 85, 162, 255};
+  inline constexpr Color menuGrey = {200, 200, 200, 150};
 
-std::vector<Color> GetCellColors();
+  inline std::array<Color, 8> GetCellColors() {
+    return {darkGrey, green, red, orange, yellow, purple, cyan, blue};
+  }
+}  // namespace COLOUR

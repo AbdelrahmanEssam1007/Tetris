@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <vector>
 
 #include "raylib.h"
@@ -10,11 +11,11 @@ class Grid {
   void Init();
   void Print() const;
   void Draw() const;
-  bool isCellOutside(int r, int c) const;
-  bool isCellEmpty(int r, int c) const;
+  [[nodiscard]] bool isCellOutside(int r, int c) const;
+  [[nodiscard]] bool isCellEmpty(int r, int c) const;
   int ClearFullRows();
-  int getRNum() const;
-  int getCNum() const;
+  [[nodiscard]] int getRNum() const;
+  [[nodiscard]] int getCNum() const;
 
   
  private:
@@ -22,7 +23,7 @@ class Grid {
   int cNum;
   int cSize;
   [[nodiscard]] bool IsRowFull(int r) const;
-  std::vector<Color> colors;
+  std::array<Color,8> colors;
   void ClearRow(int r);
   void ShiftRowsDown(int r, int numRows);
 };

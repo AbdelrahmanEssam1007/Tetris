@@ -10,7 +10,7 @@ Grid::Grid() {
   rNum = 20;
   cNum = 10;
   cSize = 30;
-  colors = GetCellColors();
+  colors = COLOUR::GetCellColors();
   Init();
 }
 

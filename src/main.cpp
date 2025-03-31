@@ -2,7 +2,7 @@
 
 #include "Game.h"
 #include "raylib.h"
-#include "utils/colors.h"
+#include "colors.h"
 
 double lastUpdate = 0;
 
@@ -30,9 +30,9 @@ int main() {
       game.MoveBlockDown();
     }
     BeginDrawing();
-    ClearBackground(darkBlue);
-    DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, lightBlue);
-    DrawRectangleRounded({320, 215, 170, 180}, 0.3, 6, lightBlue);
+    ClearBackground(COLOUR::darkBlue);
+    DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, COLOUR::lightBlue);
+    DrawRectangleRounded({320, 215, 170, 180}, 0.3, 6, COLOUR::lightBlue);
     char scoreText[10];
     sprintf(scoreText, "%d", game.score);
     auto [x, y] = MeasureTextEx(arcadeClassic, scoreText, 38, 2);
@@ -42,12 +42,12 @@ int main() {
     game.Draw();
     if (game.gameOver) {
       StopMusicStream(game.music);
-      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(darkGrey, 0.8f));
+      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(COLOUR::darkGrey, 0.8f));
       DrawTextEx(arcadeClassic, "GAME OVER",
                  {static_cast<float>(GetScreenWidth() / 8.0), static_cast<float>(GetScreenHeight() / 3.0)}, 80, 2, WHITE);
       DrawTextEx(arcadeClassic, "Press any key to restart",
                  {static_cast<float>(GetScreenWidth() / 8.0) + 10, static_cast<float>(GetScreenHeight() / 2.0) - 20}, 28, 2,
-                 menuGrey);
+                 COLOUR::menuGrey);
     }
     EndDrawing();
   }
